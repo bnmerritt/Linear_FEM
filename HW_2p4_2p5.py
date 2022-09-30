@@ -278,7 +278,4 @@ class Test_computeGaussLegendreQuadrature( unittest.TestCase ):
         self.assertTrue( numpy.allclose( w, w_gold ) )
         
 unittest.main()  
-################################################################################################### Question 51
-import numpy
-
-Analytic_Int_error = 5
+###########################################################
