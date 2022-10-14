@@ -273,6 +273,7 @@ def evaluateBernsteinBasis1D(variate, degree, basis_idx):
         variate = abs(-1 - variate) / (2)
         val = math.comb(degree,basis_idx)*(variate**basis_idx)*(1-variate)**(degree-basis_idx)
     else:
+        variate = abs(-1 - variate) / (2)
         val = math.comb(degree,basis_idx)*(variate**basis_idx)*(1-variate)**(degree-basis_idx)
     return val
 
