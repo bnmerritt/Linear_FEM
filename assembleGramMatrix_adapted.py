@@ -68,12 +68,13 @@ def assembleGramMatrix(node_coords, ien_array,solution_basis):
         node_idx = ien_array[elem][0]
         elem_domain = [node_coords[ien_array[elem][0]],node_coords[ien_array[elem][-1]]]
         qp, w = quadrature.computeGaussLegendreQuadrature(elem_nodes)
+        qp_domain = [-1,1]
         num_basis_vec = elem_degree + 1
         derivative = (elem_domain[-1] - elem_domain[0]) / 2
         for A in range(0,num_basis_vec): #basis_index
             for B in range(0,num_basis_vec): #basis_index
                 for k in range(0,len(qp)):
-                    M[A+node_idx,B+node_idx] += solution_basis(qp[k],elem_degree,A,elem_domain) * solution_basis(qp[k],elem_degree,B,elem_domain) * w[k] * derivative   
+                    M[A+node_idx,B+node_idx] += solution_basis(qp[k],elem_degree,A,qp_domain) * solution_basis(qp[k],elem_degree,B,qp_domain) * w[k] * derivative   
     return M
 
 unittest.main()

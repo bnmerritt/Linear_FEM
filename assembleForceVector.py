@@ -61,32 +61,42 @@ class Test_assembleForceVector( unittest.TestCase ):
         gold_force_vector = numpy.array( [ 1.0/30.0, 1.0/10.0, 1.0/5.0 ] )
         self.assertTrue( numpy.allclose( test_force_vector, gold_force_vector ) )
         
+    # def test_bernstein_quadratic_force_fun_sin( self ):
+    #     test_force_vector = assembleForceVector( target_fun = lambda x: numpy.sin( numpy.pi * x ), domain = [0, 1], degree = 2, solution_basis = basis.evalBernsteinBasis1D )
+    #     gold_force_vector = numpy.array( [ 0.189303748450993, 0.258012275465596,  0.189303748450993] )
+    #     self.assertTrue( numpy.allclose( test_force_vector, gold_force_vector ) )
+        # test_force_vector = assembleForceVector( target_fun = lambda x: x**2.0, domain = [0, 1], degree = 2, solution_basis = basis.evalBernsteinBasis1D )
+        # gold_force_vector = numpy.array( [ 1.0/30.0, 1.0/10.0, 1.0/5.0 ] )
+        # self.assertTrue( numpy.allclose( test_force_vector, gold_force_vector ) )
+        
         
 def assembleForceVector(target_fun,domain,degree,solution_basis):
     nodes = degree + 1
     num_basis_vec = degree + 1
     F = numpy.zeros(num_basis_vec)
-    qp, w = quadrature.computeGaussLegendreQuadrature(nodes)
+    qp, w = quadrature.computeGaussLegendreQuadrature(nodes+6)
+    qp_domain = [-1,1]
     qp_fun = ((domain[-1] - domain[0])/2)*qp + (domain[0] + domain[-1])/2
     derivative = (domain[-1] - domain[0]) / 2
     for A in range(0,num_basis_vec):
         for k in range(0,len(qp)):
-            F[A] += solution_basis(qp[k],degree,A,domain) * target_fun(qp_fun[k]) * w[k] * derivative
+            F[A] += solution_basis(qp[k],degree,A,qp_domain) * target_fun(qp_fun[k]) * w[k] * derivative
     return F
 
-unittest.main()
+# unittest.main()
 
 
-target_fun = lambda x: numpy.sin( numpy.pi * x )
-domain = [ 0, 1 ]
-degree = 2
-solution_basis = basis.evalBernsteinBasis1D
-nodes = degree + 1
-num_basis_vec = degree + 1
-F = numpy.zeros(num_basis_vec)
-qp, w = quadrature.computeGaussLegendreQuadrature(nodes)
-qp_fun = ((domain[-1] - domain[0])/2)*qp + (domain[0] + domain[-1])/2
-derivative = (domain[-1] - domain[0]) / 2
-for A in range(0,num_basis_vec):
-    for k in range(0,len(qp)):
-        F[A] += solution_basis(qp[k],degree,A,domain) * target_fun(qp_fun[k]) * w[k] * derivative
+# target_fun = lambda x: numpy.sin( numpy.pi * x )
+# domain = [ 0, 1 ]
+# degree = 2
+# solution_basis = basis.evalBernsteinBasis1D
+# nodes = degree + 1
+# num_basis_vec = degree + 1
+# F = numpy.zeros(num_basis_vec)
+# qp, w = quadrature.computeGaussLegendreQuadrature(nodes+2)
+# qp_domain = [-1,1]
+# qp_fun = ((domain[-1] - domain[0])/2)*qp + (domain[0] + domain[-1])/2
+# derivative = (domain[-1] - domain[0]) / 2
+# for A in range(0,num_basis_vec):
+#     for k in range(0,len(qp)):
+#         F[A] += solution_basis(qp[k],degree,A,qp_domain) * target_fun(qp_fun[k]) * w[k] * derivative

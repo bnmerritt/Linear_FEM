@@ -46,13 +46,14 @@ class Test_assembleGramMatrix( unittest.TestCase ):
 def assembleGramMatrix(domain,degree,solution_basis):
     nodes = degree + 1
     qp, w = quadrature.computeGaussLegendreQuadrature(nodes)
+    qp_domain = [-1,1]
     num_basis_vec = degree + 1
     derivative = (domain[-1] - domain[0]) / 2
     M = numpy.zeros((num_basis_vec,num_basis_vec))
     for A in range(0,num_basis_vec):
         for B in range(0,num_basis_vec):
             for k in range(0,len(qp)):
-                M[A,B] += solution_basis(qp[k],degree,A,domain) * solution_basis(qp[k],degree,B,domain) * w[k] * derivative   
+                M[A,B] += solution_basis(qp[k],degree,A,qp_domain) * solution_basis(qp[k],degree,B,qp_domain) * w[k] * derivative   
     return M
 
 # unittest.main()

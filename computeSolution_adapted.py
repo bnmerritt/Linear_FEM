@@ -8,9 +8,10 @@ import assembleGramMatrix_adapted
 import assembleForceVector_adapted
 
 def computeFitError( target_fun, coeff, node_coords, ien_array, eval_basis ):
-    num_elems = ien_array.shape[0]
+    # num_elems = ien_array.shape[0]
+    num_elems = len(ien_array)
     domain = [ min( node_coords ), max( node_coords ) ]
-    abs_err_fun = lambda x : abs( target_fun( x ) - evaluateSolutionAt.evaluateSolutionAt( x, coeff, node_coords, ien_array, eval_basis ) )
+    abs_err_fun = lambda x : abs( target_fun( x ) - evaluateSolutionAt( x, coeff, node_coords, ien_array, eval_basis ) )
     fit_error, residual = scipy.integrate.quad( abs_err_fun, domain[0], domain[1], epsrel = 1e-12, limit = num_elems * 100 )
     return fit_error, residual
 
@@ -25,7 +26,7 @@ def evaluateSolutionAt(x,coeff,node_coords,ien_array,eval_basis):
     sol_at_point = 0
     for n in range(0,len(elem_nodes)):
         curr_node = elem_nodes[n]
-        sol_at_point += coeff[curr_node]*basis.evalLagrangeBasis1D(param_coord,len(elem_nodes)-1,n)
+        sol_at_point += coeff[curr_node]*basis.evalLagrangeBasis1D(param_coord,len(elem_nodes)-1,n,elem_domain) #added elem_domain argument
     return sol_at_point
 
 class Test_computeSolution( unittest.TestCase ):

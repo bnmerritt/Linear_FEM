@@ -70,11 +70,12 @@ def assembleForceVector(target_fun,node_coords,ien_array,solution_basis):
         num_basis_vec = elem_degree + 1
         elem_domain = [node_coords[ien_array[elem][0]],node_coords[ien_array[elem][-1]]]
         qp, w = quadrature.computeGaussLegendreQuadrature(elem_nodes)
+        qp_domain = [-1,1]
         qp_fun = ((elem_domain[-1] - elem_domain[0])/2)*qp + (elem_domain[0] + elem_domain[-1])/2
         derivative = (elem_domain[-1] - elem_domain[0]) / 2
         for A in range(0,num_basis_vec):
             for k in range(0,len(qp)):
-                F[node_idx] += solution_basis(qp[k],elem_degree,A,elem_domain) * target_fun(qp_fun[k]) * w[k] * derivative
+                F[node_idx] += solution_basis(qp[k],elem_degree,A,qp_domain) * target_fun(qp_fun[k]) * w[k] * derivative
             node_idx = node_idx +1
     return F
 
