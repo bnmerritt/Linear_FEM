@@ -13,8 +13,8 @@ F_Lag = zeros(1,degree+1);
 M_Lag = zeros(degree+1);
 
 x = (1/2)*(y + 1);
-% f_x = x^3 - (8*x^2)/5 + (3*x)/5;
-f_x = sin(pi*x);
+f_x = x^3 - (8*x^2)/5 + (3*x)/5;
+% f_x = sin(pi*x);
 nodes = linspace(-1,1,degree+1);
 
 N_Leg(1) = x^0;
