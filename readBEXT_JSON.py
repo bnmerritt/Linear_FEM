@@ -112,3 +112,7 @@ def uniquetol( input_array, tol ):
             if abs( input_array[ i ] - input_array[ j ] ) <= tol:
                 equalityArray[i] = True
     return input_array[ ~equalityArray ]
+
+def getDomain( uspline ):
+    nodes = getSplineNodes( uspline )
+    return [ min( nodes[:,0] ), max( nodes[:,0] ) ]
